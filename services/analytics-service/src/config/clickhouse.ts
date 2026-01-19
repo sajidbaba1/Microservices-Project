@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const clickhouse = createClient({
-    host: process.env.CLICKHOUSE_HOST || 'http://localhost:8123',
+    url: process.env.CLICKHOUSE_HOST || 'http://localhost:8123',
     username: process.env.CLICKHOUSE_USER || 'default',
-    password: process.env.CLICKHOUSE_PASSWORD || '',
-    database: 'default',
+    password: process.env.CLICKHOUSE_PASSWORD || undefined,
+    database: 'default', // Keep as default for now as we initialize it later or use it for system queries
 });
 
 export const initClickHouse = async () => {

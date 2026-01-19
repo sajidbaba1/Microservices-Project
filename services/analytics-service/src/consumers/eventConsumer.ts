@@ -33,7 +33,10 @@ export const startAnalyticsConsumer = async () => {
                         event_type: topic,
                         user_id: data.userId || 'unknown',
                         email: data.email || '',
-                        timestamp: data.timestamp || new Date().toISOString().replace('T', ' ').replace('Z', ''),
+                        // Normalize timestamp: '2026-01-19T10:00:00.000Z' -> '2026-01-19 10:00:00'
+                        timestamp: (data.timestamp || new Date().toISOString())
+                            .replace('T', ' ')
+                            .substring(0, 19),
                     }],
                     format: 'JSONEachRow',
                 });
