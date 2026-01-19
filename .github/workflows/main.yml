@@ -1,0 +1,54 @@
+name: Eurusys Ecosystem CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-node:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [auth-service, analytics-service, client]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Install dependencies
+      run: |
+        cd services/${{ matrix.service }} 2>/dev/null || cd ${{ matrix.service }}
+        npm ci
+    - name: Run Build
+      run: |
+        cd services/${{ matrix.service }} 2>/dev/null || cd ${{ matrix.service }}
+        npm run build --if-present
+
+  build-go:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    - name: Build
+      run: |
+        cd services/inventory-service
+        go build -v .
+
+  build-dotnet:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+    - name: Restore dependencies
+      run: dotnet restore services/ShipmentService/ShipmentService.csproj
+    - name: Build
+      run: dotnet build services/ShipmentService/ShipmentService.csproj --no-restore

@@ -1,0 +1,30 @@
+node_modules/
+.env
+dist/
+build/
+.DS_Store
+*.log
+
+# Docker data volumes
+postgres_data/
+minio_data/
+clickhouse_data/
+
+# IDE settings
+.vscode/
+.idea/
+
+# Go
+bin/
+services/inventory-service/inventory-service
+
+# .NET
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Next.js
+.next/
+out/
