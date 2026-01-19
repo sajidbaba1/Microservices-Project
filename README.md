@@ -1,4 +1,4 @@
-# Microrservises Project 🚀
+# Microservises Project 🚀
 
 A full-stack microservices application with a focus on reliability and high-quality standards.
 
